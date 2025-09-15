@@ -4,13 +4,20 @@
     <!-- Movie poster section -->
     <div class="movie-poster-section">
       <div class="movie-background"></div>
+      <div class="movie-overlay">
+        <div class="movie-branding">
+          <i class="fas fa-film movie-icon"></i>
+          <h1 class="brand-title">MovieHub</h1>
+          <p class="brand-subtitle">Your Gateway to Cinema</p>
+        </div>
+      </div>
     </div>
     
     <!-- Login form section -->
     <div class="login-form-section">
     <div class="login-header">
       <h1 class="welcome-title">Welcome back,</h1>
-      <p class="welcome-subtitle">Sign in to your account</p>
+      <p class="welcome-subtitle">Sign in to your MovieHub account</p>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">

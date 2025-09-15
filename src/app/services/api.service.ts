@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 // DTOs matching your backend
@@ -10,6 +10,15 @@ export interface MovieDto {
   title: string;
   year: number;
   imdbId: string;
+  poster?: string;
+}
+
+export interface OmdbSearchResult {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Type: string;
+  Poster: string;
 }
 
 export interface RatingDto {
@@ -25,6 +34,12 @@ export interface UserDto {
   username: string;
   password?: string;
   role?: 'ADMIN' | 'USER';
+}
+
+export interface BatchImportResult {
+  imported: MovieDto[];
+  skipped: string[];
+  errors: string[];
 }
 
 @Injectable({
@@ -69,11 +84,12 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
-  searchMovieFromOmdb(title: string): Observable<MovieDto> {
+  // OMDB APIs
+  searchMoviesFromOmdb(keyword: string): Observable<OmdbSearchResult[]> {
     const params = new URLSearchParams();
-    params.set('title', title);
+    params.set('keyword', keyword);
     
-    return this.http.get<MovieDto>(`${this.baseUrl}/api/movies/omdb/search?${params.toString()}`)
+    return this.http.get<OmdbSearchResult[]>(`${this.baseUrl}/api/movies/omdb/search/list?${params.toString()}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -85,15 +101,61 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
-  removeMovie(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/api/movies/${id}`)
+  importMoviesFromOmdb(imdbIds: string[]): Observable<BatchImportResult> {
+    return this.http.post<BatchImportResult>(`${this.baseUrl}/api/movies/omdb/import/list`, imdbIds)
       .pipe(catchError(this.handleError));
+  }
+
+  removeMovie(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/api/movies/${id}`, {
+      observe: 'response'
+    }).pipe(
+      tap(response => {
+        console.log('✅ Delete response received:', response.status);
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  removeMovies(ids: number[]): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/api/movies/batch`, {
+      body: ids,
+      observe: 'response'
+    }).pipe(
+      tap(response => {
+        console.log('✅ Batch delete response received:', response.status);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   // Rating APIs
   addRating(rating: RatingDto): Observable<RatingDto> {
-    return this.http.post<RatingDto>(`${this.baseUrl}/api/ratings`, rating)
-      .pipe(catchError(this.handleError));
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    
+    console.log('=== API SERVICE DEBUG ===');
+    console.log('API Service - Adding rating:', rating);
+    console.log('API Service - Headers:', headers);
+    console.log('API Service - Base URL:', this.baseUrl);
+    console.log('API Service - Full URL:', `${this.baseUrl}/api/ratings`);
+    console.log('API Service - Rating type:', typeof rating);
+    console.log('API Service - Rating stringified:', JSON.stringify(rating));
+    
+    return this.http.post<RatingDto>(`${this.baseUrl}/api/ratings`, rating, { 
+      headers,
+      observe: 'response' // This will give us the full response
+    }).pipe(
+      tap(response => {
+        console.log('API Service - Response received:', response);
+        console.log('API Service - Response status:', response.status);
+        console.log('API Service - Response body:', response.body);
+      }),
+      map(response => response.body!), // Extract the body
+      catchError(this.handleError)
+    );
   }
 
   getRatingsByMovie(movieId: number): Observable<RatingDto[]> {

@@ -2,16 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 // Variables
-$primary-red: #e50914;
-$dark-bg: #1a1a1a;
-$card-bg: #2a2a2a;
-$form-bg: rgba(42, 42, 42, 0.95);
+$primary-red: #ff6b6b;
+$primary-teal: #4ecdc4;
+$primary-blue: #45b7d1;
+$dark-bg: #0f0f23;
+$card-bg: rgba(255, 255, 255, 0.05);
+$form-bg: rgba(255, 255, 255, 0.02);
 $text-white: #ffffff;
-$text-gray: #b3b3b3;
-$text-light-gray: #8c8c8c;
-$border-gray: #333333;
-$border-red: #e50914;
-$border-light: #666666;
+$text-gray: rgba(255, 255, 255, 0.7);
+$text-light-gray: rgba(255, 255, 255, 0.5);
+$border-gray: rgba(255, 255, 255, 0.1);
+$border-red: #ff6b6b;
+$border-light: rgba(255, 255, 255, 0.2);
 
 // Base styles
 * {
@@ -29,24 +31,65 @@ $border-light: #666666;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $dark-bg;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 20px;
   overflow: hidden;
+  position: relative;
+
+  // Movie-themed background pattern
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  // Floating movie elements
+  &::after {
+    content: '';
+    position: fixed;
+    top: 20%;
+    right: -100px;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 0;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+  }
 }
 
 // Main card container
 .main-card {
   background: $card-bg;
-  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
   width: 100%;
   max-width: 1000px;
   height: calc(100vh - 40px);
   max-height: 600px;
   display: flex;
   overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   animation: slideInUp 0.8s ease-out;
+  position: relative;
+  z-index: 10;
 }
 
 @keyframes slideInUp {
@@ -65,6 +108,7 @@ $border-light: #666666;
   flex: 2;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
 }
 
 .movie-background {
@@ -74,6 +118,54 @@ $border-light: #666666;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  opacity: 0.3;
+  filter: blur(1px);
+}
+
+.movie-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.8), rgba(78, 205, 196, 0.8));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+
+  .movie-branding {
+    text-align: center;
+    color: white;
+
+    .movie-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: pulse 2s infinite;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    .brand-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin: 0;
+      opacity: 0.9;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+  }
 }
 
 // Login form section (right side)
@@ -98,17 +190,21 @@ $border-light: #666666;
 .welcome-title {
   font-size: 32px;
   font-weight: 700;
-  color: $text-white;
+  background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0 0 8px 0;
   letter-spacing: -1px;
   line-height: 1.1;
+  text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
 }
 
 .welcome-subtitle {
   font-size: 16px;
   color: $text-gray;
   margin: 0;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 // Form
@@ -134,14 +230,15 @@ $border-light: #666666;
 
 .form-input {
   width: 100%;
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid $border-gray;
-  border-radius: 6px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 400;
   color: $text-white;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
   
   &::placeholder {
     color: $text-light-gray;
@@ -150,15 +247,15 @@ $border-light: #666666;
   &:focus {
     outline: none;
     border-color: $primary-red;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
   }
   
   &.error {
     border-color: $border-red;
     
     &:focus {
-      box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
     }
   }
 }
@@ -209,37 +306,38 @@ $border-light: #666666;
 }
 
 .forgot-password {
-  color: $text-gray;
+  color: $primary-teal;
   text-decoration: none;
   font-size: 12px;
-  font-weight: 400;
-  transition: color 0.2s ease;
+  font-weight: 500;
+  transition: all 0.2s ease;
   
   &:hover {
-    color: $text-white;
-    text-decoration: underline;
+    color: $primary-red;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
   }
 }
 
 // Login button
 .login-button {
   width: 100%;
-  padding: 12px 20px;
-  background: $primary-red;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
   color: $text-white;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
   
   &:hover:not(:disabled) {
-    background: darken($primary-red, 10%);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3);
+    background: linear-gradient(135deg, #4ecdc4, #ff6b6b);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
   }
   
   &:active:not(:disabled) {
@@ -286,14 +384,14 @@ $border-light: #666666;
 }
 
 .signup-link {
-  color: $primary-red;
+  color: $primary-teal;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
   
   &:hover {
-    color: lighten($primary-red, 10%);
-    text-decoration: underline;
+    color: $primary-red;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
   }
 }
 
