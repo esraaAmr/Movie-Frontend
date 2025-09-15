@@ -1,0 +1,33 @@
+<div class="user-dashboard">
+  <header class="dashboard-header">
+    <h1>User Dashboard</h1>
+    <div class="user-info">
+      <span>Welcome, {{ currentUser?.username }}!</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+  
+  <main class="dashboard-content">
+    <div class="user-features">
+      <h2>Your Movie Experience</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Browse Movies</h3>
+          <p>Discover and explore our movie collection</p>
+        </div>
+        <div class="feature-card">
+          <h3>My Watchlist</h3>
+          <p>Save movies you want to watch later</p>
+        </div>
+        <div class="feature-card">
+          <h3>My Reviews</h3>
+          <p>Rate and review movies you've watched</p>
+        </div>
+        <div class="feature-card">
+          <h3>Recommendations</h3>
+          <p>Get personalized movie recommendations</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

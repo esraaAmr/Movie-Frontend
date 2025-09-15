@@ -1,0 +1,33 @@
+<div class="admin-dashboard">
+  <header class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <div class="user-info">
+      <span>Welcome, {{ currentUser?.username }}!</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+  
+  <main class="dashboard-content">
+    <div class="admin-features">
+      <h2>Admin Features</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>User Management</h3>
+          <p>Manage user accounts and permissions</p>
+        </div>
+        <div class="feature-card">
+          <h3>Movie Management</h3>
+          <p>Add, edit, and delete movies</p>
+        </div>
+        <div class="feature-card">
+          <h3>Analytics</h3>
+          <p>View system analytics and reports</p>
+        </div>
+        <div class="feature-card">
+          <h3>Settings</h3>
+          <p>Configure system settings</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
