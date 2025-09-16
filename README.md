@@ -56,7 +56,7 @@ Before running the project, ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repository-url>
+git clone [<your-repository-url>](https://github.com/esraaAmr/Movie-Frontend.git)
 cd <repository-name>
 ```
 
