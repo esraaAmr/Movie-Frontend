@@ -91,6 +91,7 @@
           <button 
             class="batch-delete-btn" 
             *ngIf="isBatchMode && selectedMovies.size > 0"
+            [disabled]="isBatchDeleting"
             (click)="batchDeleteMovies()"
           >
             <i class="fas fa-trash"></i>

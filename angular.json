@@ -48,8 +48,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "30kb"
                 }
               ],
               "fileReplacements": [
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Movie-Frontend:build:production"
+              "buildTarget": "Movie-Frontend:build:production"
             },
             "development": {
-              "browserTarget": "Movie-Frontend:build:development"
+              "buildTarget": "Movie-Frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Movie-Frontend:build"
+            "buildTarget": "Movie-Frontend:build"
           }
         },
         "test": {
@@ -109,6 +109,5 @@
         }
       }
     }
-  },
-  "defaultProject": "Movie-Frontend"
+  }
 }

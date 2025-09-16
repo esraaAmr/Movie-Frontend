@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, User } from '../../services/auth.service';
-import { ApiService, MovieDto, RatingDto } from '../../services/api.service';
-import { DialogService } from '../../services/dialog.service';
-import { NotificationService } from '../../services/notification.service';
+import { AuthService, User } from '../../../../core/services/auth.service';
+import { ApiService, MovieDto, RatingDto } from '../../../../core/services/api.service';
+import { DialogService } from '../../../../shared/services/dialog.service';
+import { NotificationService } from '../../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-user-dashboard',
-  templateUrl: './user-dashboard.component.html',
-  styleUrls: ['./user-dashboard.component.scss']
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class UserDashboardComponent implements OnInit {
   currentUser: User | null = null;

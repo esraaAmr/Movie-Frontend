@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 // DTOs matching your backend
 export interface MovieDto {
@@ -110,9 +110,6 @@ export class ApiService {
     return this.http.delete(`${this.baseUrl}/api/movies/${id}`, {
       observe: 'response'
     }).pipe(
-      tap(response => {
-        console.log('✅ Delete response received:', response.status);
-      }),
       catchError(this.handleError)
     );
   }
@@ -122,9 +119,6 @@ export class ApiService {
       body: ids,
       observe: 'response'
     }).pipe(
-      tap(response => {
-        console.log('✅ Batch delete response received:', response.status);
-      }),
       catchError(this.handleError)
     );
   }
@@ -198,7 +192,6 @@ export class ApiService {
       }
     }
     
-    console.error('API Error:', errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

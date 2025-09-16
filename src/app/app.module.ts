@@ -5,12 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { AdminDashboardComponent } from './components/admin/dashboard.component';
-import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
-import { DialogComponent } from './components/dialog/dialog.component';
-import { NotificationComponent } from './components/notification/notification.component';
-import { LoadingComponent } from './components/loading/loading.component';
+import { LoginComponent } from './features/auth/components/login/login.component';
+import { AdminDashboardComponent } from './features/admin/components/admin/dashboard.component';
+import { UserDashboardComponent } from './features/user/components/user/dashboard.component';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
+import { NotificationComponent } from './shared/components/notification/notification.component';
+import { LoadingComponent } from './shared/components/loading/loading.component';
 
 @NgModule({
   declarations: [

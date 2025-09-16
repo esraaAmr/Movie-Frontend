@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DialogService, DialogConfig, DialogResult } from '../../services/dialog.service';
+import { DialogConfig, DialogResult, DialogService } from '../../services/dialog.service';
 import { Subscription } from 'rxjs';
 
 @Component({
