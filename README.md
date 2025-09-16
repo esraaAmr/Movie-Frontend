@@ -29,24 +29,21 @@ Movie-Frontend/
 │   │   │   └── services/           # Core services (API, Auth, HTTP)
 │   │   ├── features/               # Feature modules
 │   │   │   ├── auth/               # Authentication feature
-│   │   │   │   └── components/
-│   │   │   │       └── login/      # Login component
+│   │   │   │   └── components/login/
 │   │   │   ├── admin/              # Admin feature
-│   │   │   │   └── components/
-│   │   │   │       └── dashboard/  # Admin dashboard
+│   │   │   │   └── components/dashboard/
 │   │   │   └── user/               # User feature
-│   │   │       └── components/
-│   │   │           └── dashboard/  # User dashboard
+│   │   │       └── components/dashboard/
 │   │   ├── shared/                 # Shared components and services
 │   │   │   ├── components/         # Reusable components
 │   │   │   │   ├── dialog/         # Confirmation dialogs
 │   │   │   │   ├── notification/   # Notification system
 │   │   │   │   └── loading/        # Loading spinner
 │   │   │   └── services/           # Shared services
-│   │   ├── app.module.ts           # Main app module
-│   │   └── app-routing.module.ts   # Main routing
-│   ├── assets/                     # Static assets
-│   └── environments/               # Environment configurations
+│   │   ├── app.module.ts
+│   │   └── app-routing.module.ts
+│   ├── assets/
+│   └── environments/
 ├── package.json
 └── angular.json
 ```
