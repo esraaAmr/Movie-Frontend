@@ -5,7 +5,7 @@
   position: relative;
   overflow-x: hidden;
 
-  // Movie-themed background pattern
+
   &::before {
     content: '';
     position: fixed;
@@ -122,7 +122,7 @@
     }
   }
 
-  // Search Section
+  
   .search-section {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);

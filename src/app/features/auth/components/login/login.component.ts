@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Check if user is already logged in and redirect accordingly
     if (this.authService.isLoggedIn()) {
       this.redirectBasedOnRole();
     }
@@ -46,15 +45,13 @@ export class LoginComponent implements OnInit {
 
       const { username, password, rememberMe } = this.loginForm.value;
 
-      // Use API service for login
       this.apiService.login(username, password).subscribe({
         next: (response: UserDto) => {
-          // Convert UserDto to User and store using auth service
           const user: User = {
             id: response.id || 0,
             username: response.username,
             password: response.password || '',
-            role: response.role || 'USER' // Default to USER if role is not provided
+            role: response.role || 'USER'
           };
           
           this.authService.setCurrentUser(user);
@@ -63,10 +60,10 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('rememberMe', 'true');
           }
           
-          // Clear any error messages
+          
           this.errorMessage = '';
           
-          // Navigate based on user role
+          
           this.redirectBasedOnRole();
           this.isLoading = false;
         },
@@ -118,7 +115,6 @@ export class LoginComponent implements OnInit {
       } else if (user.role === 'USER') {
         this.router.navigate(['/user-dashboard']);
       } else {
-        // Fallback to user dashboard for unknown roles
         this.router.navigate(['/user-dashboard']);
       }
     }

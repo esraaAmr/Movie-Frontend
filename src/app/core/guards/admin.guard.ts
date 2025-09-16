@@ -19,7 +19,7 @@ export class AdminGuard implements CanActivate {
       this.router.navigate(['/user-dashboard']);
       return false;
     } else {
-      // Redirect unauthenticated users to login
+      
       this.router.navigate(['/login']);
       return false;
     }

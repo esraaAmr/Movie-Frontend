@@ -15,11 +15,9 @@ export class UserGuard implements CanActivate {
     if (this.authService.isLoggedIn() && this.authService.isUser()) {
       return true;
     } else if (this.authService.isLoggedIn() && this.authService.isAdmin()) {
-      // Redirect admins to their dashboard
       this.router.navigate(['/admin-dashboard']);
       return false;
     } else {
-      // Redirect unauthenticated users to login
       this.router.navigate(['/login']);
       return false;
     }

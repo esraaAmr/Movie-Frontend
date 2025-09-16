@@ -130,22 +130,13 @@ export class ApiService {
       'Accept': 'application/json'
     });
     
-    console.log('=== API SERVICE DEBUG ===');
-    console.log('API Service - Adding rating:', rating);
-    console.log('API Service - Headers:', headers);
-    console.log('API Service - Base URL:', this.baseUrl);
-    console.log('API Service - Full URL:', `${this.baseUrl}/api/ratings`);
-    console.log('API Service - Rating type:', typeof rating);
-    console.log('API Service - Rating stringified:', JSON.stringify(rating));
     
     return this.http.post<RatingDto>(`${this.baseUrl}/api/ratings`, rating, { 
       headers,
       observe: 'response' // This will give us the full response
     }).pipe(
       tap(response => {
-        console.log('API Service - Response received:', response);
-        console.log('API Service - Response status:', response.status);
-        console.log('API Service - Response body:', response.body);
+        // Response received
       }),
       map(response => response.body!), // Extract the body
       catchError(this.handleError)

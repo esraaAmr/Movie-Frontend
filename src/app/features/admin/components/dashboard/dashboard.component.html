@@ -14,7 +14,7 @@
     </div>
   </header>
 
-  <!-- Search Section -->
+  
   <section class="search-section">
     <div class="search-container">
       <h2 class="search-title">Discover Movies</h2>
@@ -40,7 +40,7 @@
     </div>
   </section>
 
-  <!-- Search Results -->
+ 
   <section class="search-results" *ngIf="searchResults.length > 0">
     <div class="search-results-header">
       <h2>Search Results</h2>
@@ -73,7 +73,7 @@
     </div>
   </section>
 
-  <!-- Database Movies Section -->
+  
   <section class="db-movies-section">
     <div class="section-header">
       <h2>Movies in Database</h2>
@@ -101,16 +101,16 @@
       </div>
     </div>
 
-    <!-- Loading State -->
+   
     <div class="loading-state" *ngIf="isLoadingMovies">
       <i class="fas fa-spinner fa-spin"></i>
       <span>Loading movies...</span>
     </div>
 
-    <!-- Movies Grid -->
+    
     <div class="movies-grid" *ngIf="!isLoadingMovies && paginatedMovies.length > 0">
       <div class="db-movie-card" *ngFor="let movie of paginatedMovies" [class.selected]="isMovieSelected(movie.id!)">
-        <!-- Movie Poster Section -->
+       
         <div class="movie-poster">
           <img 
             [src]="movie.poster" 
@@ -122,7 +122,7 @@
             <i class="fas fa-film"></i>
             <span>No Image</span>
           </div>
-          <!-- Overlay for batch mode -->
+          
           <div class="poster-overlay" *ngIf="isBatchMode">
             <input 
               type="checkbox" 
@@ -133,7 +133,7 @@
           </div>
         </div>
         
-        <!-- Movie Content Section -->
+        
         <div class="movie-content">
           <div class="movie-header">
             <div class="movie-title-section">
@@ -162,7 +162,7 @@
             </div>
           </div>
           
-          <!-- Action Buttons -->
+         
           <div class="movie-actions" *ngIf="!isBatchMode">
             <a 
               [href]="'https://www.imdb.com/title/' + movie.imdbId" 
@@ -178,7 +178,7 @@
       </div>
     </div>
 
-    <!-- Empty State -->
+   
     <div class="empty-state" *ngIf="!isLoadingMovies && dbMovies.length === 0">
       <i class="fas fa-film"></i>
       <h3>No movies in database</h3>

@@ -15,12 +15,10 @@ $border-gray: rgba(255, 255, 255, 0.1);
 $border-red: #ff6b6b;
 $border-light: rgba(255, 255, 255, 0.2);
 
-// Base styles
 * {
   box-sizing: border-box;
 }
 
-// Prevent password manager interference
 input[type="password"] {
   -webkit-text-security: disc;
   -moz-text-security: disc;
@@ -30,12 +28,10 @@ input[type="password"] {
   background-color: transparent !important;
 }
 
-// Non-standard property for password security (required for password manager prevention)
-// scss-lint:disable PropertyName
+
 input[type="password"] {
   text-security: disc;
 }
-// scss-lint:enable PropertyName
 
 input[type="text"] {
   -webkit-autofill: off;
@@ -44,7 +40,6 @@ input[type="text"] {
   background-color: transparent !important;
 }
 
-// Additional password manager prevention
 .form-input {
   &::-webkit-credentials-auto-fill-button {
     display: none !important;
@@ -92,7 +87,6 @@ input[type="text"] {
     pointer-events: none;
   }
 
-  // Floating movie elements
   &::after {
     content: '';
     position: fixed;
@@ -113,7 +107,7 @@ input[type="text"] {
   }
 }
 
-// Main card container
+
 .main-card {
   background: $card-bg;
   backdrop-filter: blur(20px);
@@ -142,7 +136,7 @@ input[type="text"] {
   }
 }
 
-// Movie poster section (left side)
+
 .movie-poster-section {
   flex: 2;
   position: relative;
@@ -207,7 +201,7 @@ input[type="text"] {
   }
 }
 
-// Login form section (right side)
+
 .login-form-section {
   flex: 1;
   background: $form-bg;
@@ -220,7 +214,6 @@ input[type="text"] {
   overflow: hidden;
 }
 
-// Header
 .login-header {
   margin-bottom: 20px;
   text-align: left;
@@ -246,7 +239,7 @@ input[type="text"] {
   font-weight: 500;
 }
 
-// Form
+
 .login-form {
   .form-group {
     margin-bottom: 15px;
@@ -337,7 +330,7 @@ input[type="text"] {
   }
 }
 
-// Form options
+
 .form-options {
   display: flex;
   justify-content: flex-end;
@@ -357,7 +350,7 @@ input[type="text"] {
   }
 }
 
-// Login button
+
 .login-button {
   width: 100%;
   padding: 16px 24px;
@@ -408,7 +401,7 @@ input[type="text"] {
   }
 }
 
-// Footer
+
 .login-footer {
   text-align: center;
   margin-top: 15px;
@@ -434,7 +427,7 @@ input[type="text"] {
   }
 }
 
-// Responsive design
+
 @media (max-width: 1024px) {
   .main-card {
     max-width: 900px;
@@ -521,7 +514,7 @@ input[type="text"] {
   }
 }
 
-// Dark mode enhancements
+
 @media (prefers-color-scheme: dark) {
   .main-card {
     background: #1a1a1a;

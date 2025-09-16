@@ -16,7 +16,6 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor() {
-    // Initialize with stored user data if available
     this.loadStoredUser();
   }
 

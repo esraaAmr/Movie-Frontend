@@ -177,7 +177,6 @@ export class UserDashboardComponent implements OnInit {
         this.newRating = 5;
         this.newComment = '';
         this.isSubmittingRating = false;
-        console.log('Rating submitted successfully');
       },
       error: (error) => {
         this.isSubmittingRating = false;
@@ -214,7 +213,6 @@ export class UserDashboardComponent implements OnInit {
         this.newRating = 5;
         this.newComment = '';
         this.isSubmittingRating = false;
-        console.log('Rating updated successfully');
       },
       error: (error) => {
         this.isSubmittingRating = false;

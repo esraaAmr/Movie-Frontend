@@ -88,7 +88,6 @@ export class AdminDashboardComponent implements OnInit {
   addMovieToDB(movie: OmdbSearchResult): void {
     this.apiService.importMovieFromOmdb(movie.imdbID).subscribe({
       next: (addedMovie) => {
-        console.log('Movie added to database successfully');
         this.loadMoviesFromDB();
         // Remove from search results
         this.searchResults = this.searchResults.filter(m => m.imdbID !== movie.imdbID);
@@ -114,18 +113,14 @@ export class AdminDashboardComponent implements OnInit {
       return;
     }
 
-    // Show confirmation dialog first - NO API call until user confirms
-    console.log('Showing confirmation dialog for movie ID:', movieId);
     this.dialogService.showConfirm(
       'Confirm Deletion', 
       'Are you sure you want to remove this movie from the database?',
       'Delete',
       'Cancel'
     ).subscribe(result => {
-      console.log('Dialog result received:', result);
       // Only proceed if user confirmed
       if (result.confirmed) {
-        console.log('User confirmed deletion, making API call');
         this.isDeletingMovie = true;
         
         // Make API call ONLY after user confirms
@@ -161,7 +156,7 @@ export class AdminDashboardComponent implements OnInit {
           }
         });
       }
-      // If user cancelled, do nothing (no API call)
+      
     });
   }
 
@@ -202,7 +197,6 @@ export class AdminDashboardComponent implements OnInit {
     return pages;
   }
 
-  // Batch operations
   toggleBatchMode(): void {
     this.isBatchMode = !this.isBatchMode;
     this.selectedMovies.clear();
@@ -280,8 +274,7 @@ export class AdminDashboardComponent implements OnInit {
         message += `Skipped: ${result.skipped.length}\n`;
         message += `Errors: ${result.errors.length}`;
         
-        console.log('Import Complete:', message);
-        this.loadMoviesFromDB(false); // Don't show error notification when refreshing after successful import
+        this.loadMoviesFromDB(false); 
         this.searchResults = [];
         this.searchQuery = '';
       },
