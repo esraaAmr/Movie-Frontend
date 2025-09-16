@@ -20,6 +20,37 @@ $border-light: rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
 }
 
+// Prevent password manager interference
+input[type="password"] {
+  -webkit-text-security: disc;
+  -moz-text-security: disc;
+  text-security: disc;
+  -webkit-autofill: off;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  background-color: transparent !important;
+}
+
+input[type="text"] {
+  -webkit-autofill: off;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  background-color: transparent !important;
+}
+
+// Additional password manager prevention
+.form-input {
+  &::-webkit-credentials-auto-fill-button {
+    display: none !important;
+  }
+  
+  &::-webkit-credentials-auto-fill-button:hover {
+    display: none !important;
+  }
+  
+  &::-webkit-credentials-auto-fill-button:active {
+    display: none !important;
+  }
+}
+
 :host {
   height: 100vh;
   overflow: hidden;

@@ -63,9 +63,8 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('rememberMe', 'true');
           }
           
-          // Show success message
+          // Clear any error messages
           this.errorMessage = '';
-          alert(`Login successful! Welcome to MovieHub! 🎬`);
           
           // Navigate based on user role
           this.redirectBasedOnRole();

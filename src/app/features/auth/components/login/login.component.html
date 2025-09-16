@@ -20,7 +20,11 @@
       <p class="welcome-subtitle">Sign in to your MovieHub account</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" autocomplete="off" data-lpignore="true">
+      <!-- Hidden fake fields to trick password managers -->
+      <input type="text" name="fake-username" style="display: none;" tabindex="-1" autocomplete="off">
+      <input type="password" name="fake-password" style="display: none;" tabindex="-1" autocomplete="off">
+      
       <div class="form-group">
         <label for="username" class="form-label">Username</label>
         <input
@@ -29,8 +33,10 @@
           formControlName="username"
           class="form-input"
           [class.error]="isFieldInvalid('username')"
-          placeholder="Placeholder"
-          autocomplete="username"
+          placeholder="Enter username"
+          autocomplete="off"
+          data-lpignore="true"
+          data-form-type="other"
         />
         <div class="error-message" *ngIf="isFieldInvalid('username')">
           {{ getFieldError('username') }}
@@ -46,8 +52,12 @@
             formControlName="password"
             class="form-input"
             [class.error]="isFieldInvalid('password')"
-            placeholder="Placeholder"
-            autocomplete="current-password"
+            placeholder="Enter password"
+            autocomplete="off"
+            data-lpignore="true"
+            data-form-type="other"
+            readonly
+            onfocus="this.removeAttribute('readonly')"
           />
           <button
             type="button"
@@ -63,9 +73,6 @@
         </div>
       </div>
 
-      <div class="form-options">
-        <a href="#" class="forgot-password">Forgot password?</a>
-      </div>
 
       <div class="error-message general-error" *ngIf="errorMessage">
         <i class="fas fa-exclamation-circle"></i>
@@ -86,9 +93,6 @@
       </button>
     </form>
 
-      <div class="login-footer">
-        <p>Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
-      </div>
     </div>
   </div>
 </div>
