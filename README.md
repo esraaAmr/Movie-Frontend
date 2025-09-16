@@ -1,6 +1,6 @@
 # 🎬 Movie Management System – Frontend
 
-A responsive Angular application for managing movies with user authentication, admin dashboard, and real-time notifications.
+A responsive Angular application for managing movies with user authentication, admin dashboard, and confirmation dialogs.
 
 ## 🚀 Tech Stack
 - **Framework**: Angular 18.2.0 (TypeScript 5.4.0)
@@ -13,9 +13,10 @@ A responsive Angular application for managing movies with user authentication, a
 - User authentication (Login/Logout)
 - Admin dashboard for movie CRUD operations
 - User dashboard to view movies
-- Real-time notifications
-- Confirmation dialogs
+- Confirmation dialogs for delete operations
+- Role-based access control
 - Responsive design
+- Password manager prevention
 
 ---
 
@@ -37,7 +38,6 @@ Movie-Frontend/
 │   │   ├── shared/                 # Shared components and services
 │   │   │   ├── components/         # Reusable components
 │   │   │   │   ├── dialog/         # Confirmation dialogs
-│   │   │   │   ├── notification/   # Notification system
 │   │   │   │   └── loading/        # Loading spinner
 │   │   │   └── services/           # Shared services
 │   │   ├── app.module.ts
@@ -91,6 +91,11 @@ The app will be available at:
 1. **Start PostgreSQL database**
 2. **Start the backend**: [Movie-Backend](https://github.com/esraaAmr/Movie-Backend)
 3. **Start the frontend** using `ng serve`
+4. **Access the application** at http://localhost:4200
+
+### Default Login Credentials
+- **Admin**: Username and password as configured in your backend
+- **User**: Username and password as configured in your backend
 
 ---
 
@@ -116,8 +121,34 @@ ng build --prod           # Build with production optimizations
 ```bash
 ng serve              # Start development server
 ng build              # Build for production
+ng build --prod       # Build with production optimizations
 ng test               # Run unit tests
+ng e2e                # Run end-to-end tests
 ng lint               # Run linting
 ng generate component # Generate new component
 ng generate service   # Generate new service
 ```
+
+---
+
+## 🔧 Development Notes
+
+- **No Notification System**: The application uses console logging instead of notifications
+- **Confirmation Dialogs**: All delete operations require user confirmation
+- **Password Manager Prevention**: Login form includes attributes to prevent password manager interference
+- **Role-based Routing**: Users are automatically redirected based on their role after login
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+1. **API Connection Error**: Ensure the backend is running on port 8081
+2. **CORS Issues**: Check backend CORS configuration
+3. **Authentication Issues**: Verify backend authentication endpoints
+4. **Build Errors**: Run `npm install` to ensure all dependencies are installed
+
+### Debug Mode
+- Open browser developer tools (F12)
+- Check console for detailed logging
+- Network tab shows API calls and responses
