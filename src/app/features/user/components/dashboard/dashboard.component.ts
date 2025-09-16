@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthService, User } from '../../../../core/services/auth.service';
 import { ApiService, MovieDto, RatingDto } from '../../../../core/services/api.service';
 import { DialogService } from '../../../../shared/services/dialog.service';
-import { NotificationService } from '../../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -33,7 +32,6 @@ export class UserDashboardComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private dialogService: DialogService,
-    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -179,11 +177,11 @@ export class UserDashboardComponent implements OnInit {
         this.newRating = 5;
         this.newComment = '';
         this.isSubmittingRating = false;
-        this.notificationService.success('Success!', 'Rating submitted successfully!');
+        console.log('Rating submitted successfully');
       },
       error: (error) => {
         this.isSubmittingRating = false;
-        this.notificationService.error('Error', `Error submitting rating: ${error.error?.message || error.message || 'Unknown error'}`);
+        console.error('Error submitting rating:', error);
       }
     });
   }
@@ -216,11 +214,11 @@ export class UserDashboardComponent implements OnInit {
         this.newRating = 5;
         this.newComment = '';
         this.isSubmittingRating = false;
-        this.notificationService.success('Success!', 'Rating updated successfully!');
+        console.log('Rating updated successfully');
       },
       error: (error) => {
         this.isSubmittingRating = false;
-        this.notificationService.error('Error', `Error updating rating: ${error.error?.message || error.message || 'Unknown error'}`);
+        console.error('Error updating rating:', error);
       }
     });
   }

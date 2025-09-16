@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthService, User } from '../../../../core/services/auth.service';
 import { ApiService, MovieDto, OmdbSearchResult } from '../../../../core/services/api.service';
 import { DialogService } from '../../../../shared/services/dialog.service';
-import { NotificationService } from '../../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -39,8 +38,7 @@ export class AdminDashboardComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private apiService: ApiService,
-    private dialogService: DialogService,
-    private notificationService: NotificationService
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -82,7 +80,7 @@ export class AdminDashboardComponent implements OnInit {
       error: (error) => {
         this.searchResults = [];
         this.isSearching = false;
-        this.notificationService.error('Search Error', 'Error searching movies. Please try again.');
+        console.error('Error searching movies:', error);
       }
     });
   }
@@ -90,16 +88,16 @@ export class AdminDashboardComponent implements OnInit {
   addMovieToDB(movie: OmdbSearchResult): void {
     this.apiService.importMovieFromOmdb(movie.imdbID).subscribe({
       next: (addedMovie) => {
-        this.notificationService.success('Success!', 'Movie added to database successfully!');
+        console.log('Movie added to database successfully');
         this.loadMoviesFromDB();
         // Remove from search results
         this.searchResults = this.searchResults.filter(m => m.imdbID !== movie.imdbID);
       },
       error: (error) => {
         if (error.message.includes('already exists')) {
-          this.notificationService.warning('Duplicate Movie', 'Movie already exists in database!');
+          console.warn('Movie already exists in database');
         } else {
-          this.notificationService.error('Error', 'Error adding movie to database. Please try again.');
+          console.error('Error adding movie to database:', error);
         }
       }
     });
@@ -116,53 +114,54 @@ export class AdminDashboardComponent implements OnInit {
       return;
     }
 
+    // Show confirmation dialog first - NO API call until user confirms
+    console.log('Showing confirmation dialog for movie ID:', movieId);
     this.dialogService.showConfirm(
       'Confirm Deletion', 
       'Are you sure you want to remove this movie from the database?',
       'Delete',
       'Cancel'
     ).subscribe(result => {
+      console.log('Dialog result received:', result);
+      // Only proceed if user confirmed
       if (result.confirmed) {
+        console.log('User confirmed deletion, making API call');
         this.isDeletingMovie = true;
         
+        // Make API call ONLY after user confirms
         this.apiService.removeMovie(movieId).subscribe({
-        next: (response) => {
-          if (response.status >= 200 && response.status < 300) {
-            this.notificationService.success('Success!', 'Movie removed from database successfully!');
-            this.loadMoviesFromDB(false); // Don't show error notification when refreshing after successful delete
-          } else {
-            this.notificationService.warning('Warning', 'Movie removal completed with unexpected status.');
-            this.loadMoviesFromDB();
+          next: (response) => {
+            if (response.status >= 200 && response.status < 300) {
+              // No notification - just refresh the list silently
+              this.loadMoviesFromDB(false);
+            } else {
+              console.warn('Movie removal completed with unexpected status:', response.status);
+              this.loadMoviesFromDB();
+            }
+            this.isDeletingMovie = false;
+          },
+          error: (error) => {
+            let errorMessage = 'Unknown error occurred';
+            if (error.status === 0) {
+              errorMessage = 'Network error - is your backend running?';
+            } else if (error.status === 404) {
+              errorMessage = 'Movie not found (404)';
+            } else if (error.status === 500) {
+              errorMessage = 'Server error occurred (500)';
+            } else if (error.status === 403) {
+              errorMessage = 'Access forbidden (403)';
+            } else if (error.status === 401) {
+              errorMessage = 'Unauthorized (401)';
+            } else if (error.message) {
+              errorMessage = error.message;
+            }
+            
+            console.error('Error removing movie from database:', errorMessage);
+            this.isDeletingMovie = false;
           }
-          this.isDeletingMovie = false;
-        },
-        error: (error) => {
-          let errorMessage = 'Unknown error occurred';
-          if (error.status === 0) {
-            errorMessage = 'Network error - is your backend running?';
-          } else if (error.status === 404) {
-            errorMessage = 'Movie not found (404)';
-          } else if (error.status === 500) {
-            errorMessage = 'Server error occurred (500)';
-          } else if (error.status === 403) {
-            errorMessage = 'Access forbidden (403)';
-          } else if (error.status === 401) {
-            errorMessage = 'Unauthorized (401)';
-          } else if (error.message) {
-            errorMessage = error.message;
-          }
-          
-          // Only show error notification if it's a real error
-          if (error.status !== 200 && error.status !== 201 && error.status !== 204) {
-            this.notificationService.error('Error', `Error removing movie from database: ${errorMessage}`);
-          }
-          this.isDeletingMovie = false;
-        }
-      });
-      } else {
-        // User cancelled, reset the flag
-        this.isDeletingMovie = false;
+        });
       }
+      // If user cancelled, do nothing (no API call)
     });
   }
 
@@ -177,7 +176,7 @@ export class AdminDashboardComponent implements OnInit {
       error: (error) => {
         this.isLoadingMovies = false;
         if (showErrorNotification) {
-          this.notificationService.error('Error', 'Error loading movies from database.');
+          console.error('Error loading movies from database:', error);
         }
       }
     });
@@ -232,30 +231,34 @@ export class AdminDashboardComponent implements OnInit {
       return;
     }
 
+    // Show confirmation dialog first
     this.dialogService.showConfirm(
       'Confirm Batch Deletion', 
       `Are you sure you want to delete ${this.selectedMovies.size} selected movies?`,
       'Delete All',
       'Cancel'
     ).subscribe(result => {
+      // Only proceed if user confirmed
       if (result.confirmed) {
         this.isBatchDeleting = true;
         const movieIds = Array.from(this.selectedMovies);
         
+        // Make API call to delete movies
         this.apiService.removeMovies(movieIds).subscribe({
           next: (response) => {
-            // Only send ONE notification
-            this.notificationService.success('Success!', `${movieIds.length} movies deleted successfully!`);
-            this.loadMoviesFromDB(false); // Don't show error notification when refreshing after successful delete
+            // No notification - just refresh the list silently
+            
+            // Refresh the movie list without showing error notifications
+            this.loadMoviesFromDB(false);
+            
+            // Clear selection and exit batch mode
             this.selectedMovies.clear();
             this.isBatchMode = false;
             this.isBatchDeleting = false;
           },
           error: (error) => {
-            // Only show error notification if it's a real error
-            if (error.status !== 200 && error.status !== 201 && error.status !== 204) {
-              this.notificationService.error('Error', 'Error deleting movies. Please try again.');
-            }
+            // Error occurred - could add console log or other handling here
+            console.error('Error deleting movies:', error);
             this.isBatchDeleting = false;
           }
         });
@@ -277,13 +280,13 @@ export class AdminDashboardComponent implements OnInit {
         message += `Skipped: ${result.skipped.length}\n`;
         message += `Errors: ${result.errors.length}`;
         
-        this.notificationService.success('Import Complete', message);
+        console.log('Import Complete:', message);
         this.loadMoviesFromDB(false); // Don't show error notification when refreshing after successful import
         this.searchResults = [];
         this.searchQuery = '';
       },
       error: (error) => {
-        this.notificationService.error('Error', 'Error importing movies. Please try again.');
+        console.error('Error importing movies:', error);
       }
     });
   }

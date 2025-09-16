@@ -9,7 +9,6 @@ import { LoginComponent } from './features/auth/components/login/login.component
 import { AdminDashboardComponent } from './features/admin/components/dashboard/dashboard.component';
 import { UserDashboardComponent } from './features/user/components/dashboard/dashboard.component';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
-import { NotificationComponent } from './shared/components/notification/notification.component';
 import { LoadingComponent } from './shared/components/loading/loading.component';
 
 @NgModule({
@@ -19,7 +18,6 @@ import { LoadingComponent } from './shared/components/loading/loading.component'
     AdminDashboardComponent,
     UserDashboardComponent,
     DialogComponent,
-    NotificationComponent,
     LoadingComponent
   ],
   imports: [

@@ -24,15 +24,23 @@ $border-light: rgba(255, 255, 255, 0.2);
 input[type="password"] {
   -webkit-text-security: disc;
   -moz-text-security: disc;
-  text-security: disc;
   -webkit-autofill: off;
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
   background-color: transparent !important;
 }
+
+// Non-standard property for password security (required for password manager prevention)
+// scss-lint:disable PropertyName
+input[type="password"] {
+  text-security: disc;
+}
+// scss-lint:enable PropertyName
 
 input[type="text"] {
   -webkit-autofill: off;
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
   background-color: transparent !important;
 }
 

@@ -25,6 +25,8 @@ export class DialogService {
   private resultSubject = new BehaviorSubject<DialogResult | null>(null);
 
   showDialog(config: DialogConfig): Observable<DialogResult> {
+    // Clear any previous result
+    this.resultSubject.next(null);
     this.dialogSubject.next(config);
     return this.resultSubject.asObservable().pipe(
       filter(result => result !== null)
@@ -36,6 +38,7 @@ export class DialogService {
   }
 
   confirm(result: DialogResult): void {
+    console.log('Dialog confirm called with result:', result);
     this.resultSubject.next(result);
     this.closeDialog();
   }
